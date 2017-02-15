@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>task30瀑布流</title>
+	<style>
+	.ct{
+		position: relative;
+	}
+	.item{
+		position: absolute;
+		width: 200px;
+		margin: 10px;
+		transition:all 1s;
+		font-size: 70px;
+		padding-top:40px; 
+		text-align: center;
+		color:white;
+	}
+	.h1{
+		height:200px;
+		background: #2DCAAE;
+	}
+	.h2{
+		height:250px;
+		background: #4AF2A1;
+	}
+	.h3{
+		height:350px;
+		background: #5CC9F5;
+	}
+
+	.h4{
+		height:300px;
+		background: #FAB646;
+	}
+
+
+
+
+
+	</style>
+</head>
+<body>
+	<div class="ct">
+		<div class="item h1">1</div>
+		<div class="item h2">2</div>
+		<div class="item h3">3</div>
+		<div class="item h4">4</div>
+		<div class="item h2">5</div>
+		<div class="item h3">6</div>
+		<div class="item h4">7</div>
+		<div class="item h2">8</div>
+		<div class="item h1">9</div>
+		<div class="item h2">10</div>
+		<div class="item h4">11</div>
+		<div class="item h1">12</div>
+		<div class="item h2">13</div>
+		<div class="item h4">14</div>
+		<div class="item h3">15</div>
+		<div class="item h4">16</div>
+		<div class="item h1">17</div>
+		<div class="item h3">18</div>
+		<div class="item h4">19</div>
+		<div class="item h4">20</div>
+		<div class="item h2">21</div>
+		<div class="item h2">22</div>
+		<div class="item h3">23</div>
+		<div class="item h1">24</div>
+	</div>
+
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script>
+		
+		
+	function  render(){
+
+		var $nodeW = $('.item').outerWidth(true),
+			winW = $(window).width();		
+
+		//能放下几列
+
+		var colNum =parseInt(winW/$nodeW);
+
+		var colHeightSum = [];
+
+		for (var i = 0; i < colNum; i++) {
+			colHeightSum.push(0);
+
+			// colHeightSum[i] =  colHeightSum[i] +$node.outerHeight(true);
+		}
+
+		// console.log(colSumHeight);
+
+		$('.item').each(function() {
+			var $cur = $(this);
+
+			var idx = 0,
+				minHeightSum = colHeightSum[0];
+
+			for (var i = 0; i < colHeightSum.length; i++) {
+				if (colHeightSum[i] < minHeightSum){
+					idx = i;
+					minHeightSum = colHeightSum[i];
+				}
+			};
+
+			$cur.css({
+				left : $nodeW * idx,
+				top : minHeightSum
+				// top: colHeightSum[i]
+
+				});
+
+			colHeightSum[idx] = $cur.outerHeight(true) + colHeightSum[idx];
+		});
+       
+	 }
+
+	 render();
+
+	 $(window).on("resize",function(){
+			render();
+		})
+
+
+
+	//方法2， 闭包封装   学习！
+
+
+ 		// var water = (function($){
+
+	 	// 	function render(){
+		 //  		var nodeWidth = $('.item').outerWidth(true),
+		 // 			colNum = parseInt($(window).width()/nodeWidth),
+		 // 			colSumHeight = [];
+		 // 		for(var i = 0; i<colNum;i++){
+		 // 			colSumHeight.push(0);
+		 // 		}
+		 // 		$('.item').each(function(){
+		 // 			var $cur = $(this);
+		 // 			var idx = 0,
+		 // 			minSumHeight = colSumHeight[0];
+
+		 // 		for(var i=0;i<colSumHeight.length; i++){
+		 // 			if(colSumHeight[i] < minSumHeight){
+		 // 				idx = i;
+		 // 				minSumHeight = colSumHeight[i];
+		 // 			}
+		 // 		}
+
+		 // 		$cur.css({
+		 // 			left: nodeWidth*idx,
+		 // 			top: minSumHeight
+		 // 		});
+		 // 		colSumHeight[idx] = $cur.outerHeight(true) + colSumHeight[idx];
+		 // 		});
+	 	// 	}
+
+	 	// 	$(window).on('resize', function(){
+	 	// 		render();
+	 	// 	})
+
+ 		// 	return {
+ 		// 		init: render
+ 		// 	}
+ 		// })(jQuery)
+
+ 		// water.init();
+
+
+
+
+
+
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
